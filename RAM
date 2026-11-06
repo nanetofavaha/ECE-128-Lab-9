@@ -1,1 +1,26 @@
-
+module memory(
+        input clk, rst, write_enable,
+        input [2:0] addr,
+        input [7:0] write_data,
+        output reg[7:0] read_data
+    );
+    
+    reg[7:0] mem[0:7];
+    integer i;
+    always@(posedge clk) begin
+        if (rst) begin
+            for (i=0;i<8;i=i+1) begin
+             mem[i] <= 0;
+            end 
+        end 
+        else begin
+            if (write_enable) begin
+                mem[addr] <= write_data;
+            end 
+            else begin
+                read_data <= mem[addr]; 
+            end  
+        end
+     end
+   
+endmodule
