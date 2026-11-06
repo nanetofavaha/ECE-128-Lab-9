@@ -1,1 +1,51 @@
+module Ram_TB();
+reg  rst, clk, enable;
+reg[2:0] addr;
+reg[7:0] writedata;
+wire[7:0] readdata;
 
+memory dut(clk, rst, enable, addr, writedata, readdata); // device under use
+
+    initial begin  //clock started at 0 alternating at 10 ms
+        clk = 1'b0;
+        forever #10 clk = ~clk;
+    end
+    
+    initial begin
+        rst = 1'b1; //reset 0, proceed
+        #20;
+        rst = 1'b0;
+        #20;
+        enable = 1'b1; //enable 1, proceed
+        writedata= 8'b10010001; //data given to store
+        addr= 3'b001; // where to store
+        #20;
+        writedata= 8'd117; //data given to store
+        addr= 3'b010; // where to store
+        #20;
+        writedata= 8'd236; //data given to store
+        addr= 3'b011; // where to store
+        #20;
+        writedata= 8'b100; //data given to store
+        addr= 3'b100; // where to store
+        #20;
+        writedata= 8'd86; //data given to store
+        addr= 3'b101; // where to store
+        #20;
+        enable= 0;
+        addr= 3'b001; // where to store
+        #20;
+       
+        addr= 3'b010; // where to store
+        #20;
+     
+        addr= 3'b011; // where to store
+        #20;
+       
+        addr= 3'b100; // where to store
+        #20;
+       
+        addr= 3'b101; // where to store
+        #20 $stop;    
+    end
+endmodule
